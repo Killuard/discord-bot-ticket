@@ -1,0 +1,36 @@
+{
+  "colors": {
+    "success": "#22c55e",
+    "danger": "#ED4245",
+    "primary": "#3b82f6",
+    "secondary": "#4f545c",
+    "default": "#2F3136",
+    "info": "#FEE75C",
+    "warning": "#fbbd23",
+    "magic": "#c026d3",
+    "green": "#57F287",
+    "fuchsia": "#EB459E",
+    "azoxo": "#5865F2",
+
+    "developer": "#3e70dd",
+    "balance": "#45ddc0",
+    "brilliance": "#f07d5f",
+    "nitro": "#ff6bfa",
+    "bravery": "#9c84ef"
+  }, 
+  "emojis": {
+    "ticket":"1217579161602883594",
+    "terms":"1217581500644720642",
+    "user":"1221923432833355886",
+    "userOwner":"1221925211222446260",
+    "lockClose":"1221925817055973507",
+    "clockEmoji":"1222231798587592774",
+    "idTicket":"1222237437947019345",
+    "clockLock":"1222238986182070352",
+    "starEmoji":"1222245642953298030"
+  },
+  "embed": {
+    "image": "https://cdn.discordapp.com/attachments/1210375544466841671/1221854722726821959/LS.png?ex=661417e2&is=6601a2e2&hm=8a7b2459b36953536b44effd046f99ff3b64fa08e78494068e7d55ddc5f968ce&"
+  }
+  
+}
