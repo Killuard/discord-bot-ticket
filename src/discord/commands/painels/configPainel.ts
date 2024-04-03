@@ -5,7 +5,7 @@ import { ApplicationCommandOptionType, ApplicationCommandType, ButtonBuilder, Bu
 
 new Command({
     name: "config-painel",
-    description: "[ADM] Configure um painel de Ticket.",
+    description: "[ADM] Painel de gerenciar um ticket.",
     dmPermission: false,
     defaultMemberPermissions: PermissionFlagsBits.Administrator,
     type: ApplicationCommandType.ChatInput,
@@ -55,12 +55,13 @@ new Command({
 
         const { options, client } = interaction;
 
-       
+        const usersPerms = await db.guilds.findOne({ id: interaction.guild.id })
+        if (!usersPerms) {
+            await db.guilds.create({ id: interaction.guild.id })
+        }
 
-        const usersPerms = await db.guilds.findOne({ id: interaction.guild.id}).then((user) => user?.userPermissions) as Array<string>;
-
-        if (!usersPerms.includes(interaction.user.id)) {
-            return await interaction.reply({ content: `**❌ | Você não tem permissão.**`, ephemeral });
+        if (!usersPerms?.userPermissions.includes(interaction.user.id)) {
+            return interaction.reply({ content: `**❌ | Você não tem permissão.**`, ephemeral });
         };
 
         const painelID = options.getString(`id`);

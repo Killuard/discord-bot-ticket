@@ -6,7 +6,7 @@ import { ApplicationCommandOptionType, ApplicationCommandType, ColorResolvable, 
 
 new Command({
     name: "set-painel",
-    description: "[ADM] Envie o painel de ticket no canal.",
+    description: "[ADM] Painel de setar ticket.",
     dmPermission: false,
     defaultMemberPermissions: PermissionFlagsBits.Administrator,
     type: ApplicationCommandType.ChatInput,
@@ -57,12 +57,15 @@ new Command({
 
         const { options } = interaction;
 
-        const usersPerms = await db.guilds.findOne({ id: interaction.guild.id }).then((user) => user?.userPermissions) as Array<string>;
+        const usersPerms = await db.guilds.findOne({ id: interaction.guild.id })
+        if (!usersPerms) {
+            await db.guilds.create({ id: interaction.guild.id })
+        }
 
-        if (!usersPerms.includes(interaction.user.id)) {
+        if (!usersPerms?.userPermissions.includes(interaction.user.id)) {
             return interaction.reply({ content: `**❌ | Você não tem permissão.**`, ephemeral });
         };
-
+        
         const id = options.getString(`id`);
 
         const Data = await db.ticketsP.findOne({ idP: id, guildId: interaction.guild.id });

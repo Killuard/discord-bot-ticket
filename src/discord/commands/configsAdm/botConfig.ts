@@ -7,19 +7,23 @@ import { ApplicationCommandType, ButtonBuilder, PermissionFlagsBits } from "disc
 
 new Command({
     name: "bot-config",
-    description: "[ADM] Gerencie o bot",
+    description: "[ADM] Painel de gerenciar o bot.",
     defaultMemberPermissions: (PermissionFlagsBits.Administrator),
     dmPermission: false,
     type: ApplicationCommandType.ChatInput,
     async run(interaction) {
 
         const { client } = interaction
-        const usersPerms = await db.guilds.findOne({ id: interaction.guild.id }).then((users) => users?.userPermissions) as Array<string>
 
-        if (!usersPerms.includes(interaction.user.id)) {
-            await interaction.reply({ content: `**❌ | Você não tem permissão.**`, ephemeral });
-            return
+        const usersPerms = await db.guilds.findOne({ id: interaction.guild.id })
+        if (!usersPerms) {
+            await db.guilds.create({ id: interaction.guild.id })
         }
+
+        if (!usersPerms?.userPermissions.includes(interaction.user.id)) {
+            interaction.reply({ content: `**❌ | Você não tem permissão.**`, ephemeral });
+            return
+        };
 
         const embed = new EmbedBuilder()
             .setTitle(`${client.user.username} | Gerenciar Ticket`)

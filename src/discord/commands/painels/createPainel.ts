@@ -5,7 +5,7 @@ import { ApplicationCommandOptionType, ApplicationCommandType, EmbedBuilder, Per
 
 new Command({
     name: "criar-painel",
-    description: "[ADM] Crie Um Novo Painel De Ticket.",
+    description: "[ADM] Painel de criar um ticket.",
     dmPermission: false,
     defaultMemberPermissions: PermissionFlagsBits.Administrator,
     type: ApplicationCommandType.ChatInput,
@@ -22,10 +22,13 @@ new Command({
 
     async run(interaction) {
         const { options } = interaction;
-        
-        const usersPerms = await db.guilds.findOne({ id: interaction.guild.id }).then((user) => user?.userPermissions) as Array<string>;
 
-        if (!usersPerms.includes(interaction.user.id)) {
+        const usersPerms = await db.guilds.findOne({ id: interaction.guild.id })
+        if (!usersPerms) {
+            await db.guilds.create({ id: interaction.guild.id })
+        }
+
+        if (!usersPerms?.userPermissions.includes(interaction.user.id)) {
             return interaction.reply({ content: `**❌ | Você não tem permissão.**`, ephemeral });
         };
 
@@ -33,8 +36,10 @@ new Command({
         const command = findCommand(interaction.guild.client).byName("config-painel");
         if (!command) return;
 
-        await interaction.reply({ content: `✅ | Painel criado com sucesso, use ${chatInputApplicationCommandMention(command.name, command.id)} **${id}** Para configura-lo`,
-         ephemeral });
+        await interaction.reply({
+            content: `✅ | Painel criado com sucesso, use ${chatInputApplicationCommandMention(command.name, command.id)} **${id}** Para configura-lo`,
+            ephemeral
+        });
 
         await db.ticketsP.create({
             idP: id,
