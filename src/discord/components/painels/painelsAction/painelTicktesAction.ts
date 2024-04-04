@@ -254,9 +254,9 @@ new Component({
             (user) => user.channelId === interaction.channel?.id
         );
 
-        const usersPerms = await db.guilds.findOne({ id: interaction.guild.id }).then((user) => user?.userPermissions) as Array<string>;
+        const usersPerms = await db.guilds.findOne({ id: interaction.guild.id })
 
-        if (!usersPerms.includes(interaction.user.id) || (!interaction.member.permissions.has(PermissionFlagsBits.Administrator))) {
+        if (!usersPerms?.userPermissions.includes(interaction.user.id) || (!interaction.member.permissions.has(PermissionFlagsBits.Administrator))) {
             const noPerm = new EmbedBuilder().setDescription(
                 `📌・Opps! **${interaction.user.username}** parece que você não possui permissão para executar isso.`
             );
@@ -362,9 +362,9 @@ new Component({
         const ticketUser = userTicket[0].abertoPorId as string
         const user = interaction.guild.members.cache.get(ticketUser) as GuildMember
 
-        const usersPerms = await db.guilds.findOne({ id: interaction.guild.id }).then((user) => user?.userPermissions) as Array<string>;
+        const usersPerms = await db.guilds.findOne({ id: interaction.guild.id })
 
-        if (!usersPerms.includes(interaction.user.id) || (!interaction.member.permissions.has(PermissionFlagsBits.Administrator))) {
+        if (!usersPerms?.userPermissions.includes(interaction.user.id) || (!interaction.member.permissions.has(PermissionFlagsBits.Administrator))) {
             const noPerm = new EmbedBuilder().setDescription(`📌・Opps! **${interaction.user.username}** parece que você não possui permissão para executar isso.`);
 
             interaction.reply({ embeds: [noPerm], ephemeral })
