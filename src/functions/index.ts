@@ -1,3 +1,6 @@
+import { EmojiKey, Emojilist } from "#interfaces";
+import { settings } from "#settings";
+import { formatEmoji } from "discord.js";
 
 // export functions here
 export function generateUUID() {
@@ -12,14 +15,15 @@ export function generateUUID() {
   return uuid;
 }
 
-export function isEmoji(input: string): any {
-  const emojiRegex = /[\u{1F600}-\u{1F64F}]/gu;
-  const formatRegex = /<:[a-zA-Z_]+:[0-9]+>/g;
-  if (emojiRegex.test(input) || formatRegex.test(input)) {
-    return input;
-  } else {
-    throw new Error("Emoji Inválido");
-  }
-}
+export function icon(name: EmojiKey) {
+  const animated = name.startsWith(":a:");
 
+  const id = animated
+    ? settings.emojis.animated[name.slice(3, name.length) as keyof Emojilist["animated"]]
+    : settings.emojis.static[name as keyof Emojilist["static"]];
+
+  const toString = () => formatEmoji(id, animated);
+
+  return { id, animated, toString };
+}
 

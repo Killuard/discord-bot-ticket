@@ -1,3 +1,6 @@
+import { settings } from "#settings";
+
+export type Emojilist = typeof settings.emojis;
 
 export interface Categorydb {
     nome: string
@@ -21,3 +24,5 @@ export interface Functionsdb {
     Pagamentos: string,
     GerenciarMembro: string
 }
+
+export type EmojiKey = keyof Emojilist["static"] | `:a:${keyof Emojilist["animated"]}`
